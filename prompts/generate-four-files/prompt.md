@@ -1,0 +1,1 @@
+Create four text files named a.txt, b.txt, c.txt, and d.txt in the workspace. Each file should contain a single line with its own filename (without extension) in uppercase, e.g. a.txt contains "A". Call done when finished.

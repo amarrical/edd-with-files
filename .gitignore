@@ -1,0 +1,4 @@
+node_modules/
+tmp-spike/
+prompts/**/results/*.json
+

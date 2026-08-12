@@ -1,0 +1,29 @@
+llm:
+  runner:
+    provider: devin
+    model: swe-1-6-fast
+    max_turns: 10
+    timeoutSeconds: 120
+    permissionMode: accept-edits
+  grader:
+    provider: devin
+    model: swe-1-6-fast
+    timeoutSeconds: 120
+
+testCases:
+  default: {}
+
+weights:
+  allFilesPresent: 2
+  correctContent: 2
+  completeness: 1
+
+checks:
+  - name: allFilesPresent
+    type: grep
+    file: a.txt
+    pattern: A
+  - name: bPresent
+    type: grep
+    file: b.txt
+    pattern: B
