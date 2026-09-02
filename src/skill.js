@@ -38,21 +38,27 @@ function loadPrompt(promptPath) {
 
 function discoverTestCases(inputsDir, testCasesConfig) {
   const cases = {};
-  if (fs.existsSync(inputsDir)) {
+  const configuredIds = Object.keys(testCasesConfig || {});
+
+  if (configuredIds.length === 0 && fs.existsSync(inputsDir)) {
+    // No explicit test cases configured; auto-discover directories under inputs/.
     for (const entry of fs.readdirSync(inputsDir)) {
+      if (entry.startsWith('.')) continue;
       const caseDir = path.join(inputsDir, entry);
       if (fs.statSync(caseDir).isDirectory()) {
         cases[entry] = caseDir;
       }
     }
-  }
-  for (const [id, override] of Object.entries(testCasesConfig)) {
-    if (override && override.inputs) {
-      cases[id] = path.resolve(inputsDir, override.inputs);
-    } else if (!(id in cases)) {
-      cases[id] = path.join(inputsDir, id);
+  } else {
+    for (const [id, override] of Object.entries(testCasesConfig || {})) {
+      if (override && override.inputs) {
+        cases[id] = path.resolve(inputsDir, override.inputs);
+      } else {
+        cases[id] = path.join(inputsDir, id);
+      }
     }
   }
+
   if (Object.keys(cases).length === 0) {
     throw new Error('No test cases found in inputs/');
   }
