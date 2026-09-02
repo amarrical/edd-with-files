@@ -71,6 +71,10 @@ function runDevin(skill, caseName, caseDir, config) {
     }
   }
 
+  // Write agent output to workspace for graders to access
+  const agentOutputPath = path.join(workspace, '.agent-output.txt');
+  fs.writeFileSync(agentOutputPath, result.stdout || '');
+
   cleanConfigFiles(workspace, configPath, exportPath);
 
   return {

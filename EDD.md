@@ -52,6 +52,7 @@ A file-based LLM skill evaluation harness. It runs a `prompt.md` against one or 
 6. **Checks are `grep` only**. Each check must be `{name, type: 'grep', file: '<workspace-relative>', pattern: '<regex>', flags: ''}`. `pattern` is compiled as a `RegExp`.
 7. **Weights drive the aggregate score**. `weights` in `config.yaml` maps a check or metric name to a weight; anything not listed defaults to `1`.
 8. **Sandbox lives under `<temp>/prompt-eval/<skill-name>-<random>/`**. `inputs/<case>/` is copied in; the agent is granted read/write only inside that workspace. The generated `agent-config` and `export` JSON files are deleted after parsing so they do not contaminate grading.
+9. **Agent stdout is written to `.agent-output.txt`**. The runner writes the agent's stdout output to `.agent-output.txt` in the workspace before graders run. This allows graders to evaluate the agent's final response (e.g., PR comments, summaries) that are captured in stdout but not written to workspace files. Grader prompts should explicitly reference `.agent-output.txt` when they need to evaluate agent responses.
 
 ## `config.yaml` schema
 
